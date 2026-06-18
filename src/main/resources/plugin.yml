@@ -1,0 +1,127 @@
+name: SuTeleport
+version: '1.0-SNAPSHOT'
+main: su.luochen.SuTeleport
+api-version: '1.21'
+description: TPA/TPR/Home/Warp 传送插件
+softdepend: [LuckPerms]
+
+commands:
+  tpa:
+    description: 向目标玩家发送传送请求（你传送到目标位置）
+    usage: /tpa <玩家名>
+  tpahere:
+    description: 向目标玩家发送传送请求（目标传送到你的位置）
+    usage: /tpahere <玩家名>
+  tpaccept:
+    description: 接受传送请求
+    usage: /tpaccept
+  tpdeny:
+    description: 拒绝传送请求
+    usage: /tpdeny
+  tpr:
+    description: 随机传送到地图上的一个安全位置
+    usage: /tpr
+  suteleport:
+    description: SuTeleport 插件管理命令
+    usage: /suteleport reload
+    aliases: [stp]
+  warp:
+    description: 传送到指定传送点
+    usage: /warp <传送点名称>
+  setwarp:
+    description: 设置传送点
+    usage: /setwarp <传送点名称>
+  delwarp:
+    description: 删除传送点
+    usage: /delwarp <传送点名称>
+  warps:
+    description: 列出所有传送点
+    usage: /warps
+  home:
+    description: 传送到你的家
+    usage: /home <家名称>
+  sethome:
+    description: 设置家
+    usage: /sethome [家名称]
+  delhome:
+    description: 删除家
+    usage: /delhome <家名称>
+  homes:
+    description: 列出你的所有家
+    usage: /homes
+  back:
+    description: 回到上一次死亡的位置
+    usage: /back
+  sback:
+    description: 回到传送前的上一个位置
+    usage: /sback
+
+permissions:
+  suteleport.tpa:
+    description: 允许使用 /tpa 命令
+    default: true
+  suteleport.tpahere:
+    description: 允许使用 /tpahere 命令
+    default: true
+  suteleport.tpaccept:
+    description: 允许使用 /tpaccept 命令
+    default: true
+  suteleport.tpdeny:
+    description: 允许使用 /tpdeny 命令
+    default: true
+  suteleport.tpr:
+    description: 允许使用 /tpr 随机传送命令
+    default: true
+  suteleport.warp:
+    description: 允许使用 /warp 传送命令
+    default: true
+  suteleport.warp.set:
+    description: 允许设置传送点
+    default: op
+  suteleport.warp.delete:
+    description: 允许删除传送点
+    default: op
+  suteleport.warps:
+    description: 允许列出所有传送点
+    default: true
+  suteleport.home:
+    description: 允许使用 /home 传送到家
+    default: true
+  suteleport.home.set:
+    description: 允许设置家
+    default: true
+  suteleport.home.delete:
+    description: 允许删除家
+    default: true
+  suteleport.homes:
+    description: 允许列出所有家
+    default: true
+  suteleport.back:
+    description: 允许使用 /back 回到死亡位置
+    default: true
+  suteleport.sback:
+    description: 允许使用 /sback 回到传送前的位置
+    default: true
+  suteleport.reload:
+    description: 允许重载插件配置
+    default: op
+  suteleport.*:
+    description: 拥有所有 SuTeleport 权限
+    default: op
+    children:
+      suteleport.tpa: true
+      suteleport.tpahere: true
+      suteleport.tpaccept: true
+      suteleport.tpdeny: true
+      suteleport.tpr: true
+      suteleport.warp: true
+      suteleport.warp.set: true
+      suteleport.warp.delete: true
+      suteleport.warps: true
+      suteleport.home: true
+      suteleport.home.set: true
+      suteleport.home.delete: true
+      suteleport.homes: true
+      suteleport.back: true
+      suteleport.sback: true
+      suteleport.reload: true

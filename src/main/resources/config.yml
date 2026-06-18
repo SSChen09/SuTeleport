@@ -1,0 +1,34 @@
+# SuTeleport 配置文件
+
+# 随机传送设置
+tpr:
+  # 最大传送半径（格）
+  max-radius: 5000
+  # 最大高度限制
+  max-height: 256
+  # 最大尝试次数
+  max-attempts: 50
+  # 是否允许在末地使用
+  allow-end: false
+
+# TPA 传送请求设置
+tpa:
+  # 请求超时时间（秒）
+  timeout: 60
+
+# 家设置
+home:
+  # 每个玩家最多可设置的家数量
+  max-homes: 3
+
+# 命令冷却时间设置（秒），0表示无冷却
+cooldown:
+  # 传送类命令冷却（秒），0表示无冷却
+  tpa: 0
+  tpahere: 0
+  tpaccept: 0
+  tpr: 0
+  warp: 0
+  home: 0
+  back: 0
+  sback: 0
