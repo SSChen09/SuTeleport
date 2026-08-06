@@ -141,7 +141,9 @@ public class HomeManager {
      * 获取玩家的家数量
      */
     public int getHomeCount(Player player) {
-        return getHomeNames(player).size();
+        UUID uuid = player.getUniqueId();
+        ConfigurationSection section = homeConfig.getConfigurationSection("homes." + uuid);
+        return section != null ? section.getKeys(false).size() : 0;
     }
 
     /**

@@ -3,13 +3,17 @@ package su.luochen.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import su.luochen.SuTeleport;
 import su.luochen.manager.CooldownManager;
 import su.luochen.manager.HomeManager;
 import su.luochen.manager.PermissionManager;
 
-public class HomeCommand implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class HomeCommand implements CommandExecutor, TabCompleter {
 
     private final SuTeleport plugin;
     private final HomeManager homeManager;
@@ -57,5 +61,19 @@ public class HomeCommand implements CommandExecutor {
         }
 
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        List<String> completions = new ArrayList<>();
+        if (args.length == 1 && sender instanceof Player player) {
+            String input = args[0].toLowerCase();
+            for (String home : homeManager.getHomeNames(player)) {
+                if (home.toLowerCase().startsWith(input)) {
+                    completions.add(home);
+                }
+            }
+        }
+        return completions;
     }
 }

@@ -3,6 +3,7 @@ package su.luochen.commands;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,7 +12,10 @@ import su.luochen.SuTeleport;
 import su.luochen.manager.CooldownManager;
 import su.luochen.manager.PermissionManager;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class TprCommand implements CommandExecutor {
 
@@ -23,6 +27,7 @@ public class TprCommand implements CommandExecutor {
     private final int maxHeight;
     private final int maxAttempts;
     private final boolean allowEnd;
+    private final Set<Biome> blockedBiomes;
 
     public TprCommand(SuTeleport plugin, CooldownManager cooldownManager, PermissionManager permissionManager) {
         this.plugin = plugin;
@@ -32,6 +37,23 @@ public class TprCommand implements CommandExecutor {
         this.maxHeight = plugin.getConfig().getInt("tpr.max-height", 256);
         this.maxAttempts = plugin.getConfig().getInt("tpr.max-attempts", 50);
         this.allowEnd = plugin.getConfig().getBoolean("tpr.allow-end", false);
+        this.blockedBiomes = loadBlockedBiomes();
+    }
+
+    /**
+     * 从配置文件加载禁止传送的群系列表
+     */
+    private Set<Biome> loadBlockedBiomes() {
+        Set<Biome> biomes = new HashSet<>();
+        List<String> names = plugin.getConfig().getStringList("tpr.blocked-biomes");
+        for (String name : names) {
+            try {
+                biomes.add(Biome.valueOf(name.toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                plugin.getLogger().warning("未知的群系名称: " + name + "，已跳过。");
+            }
+        }
+        return biomes;
     }
 
     @Override
@@ -84,9 +106,13 @@ public class TprCommand implements CommandExecutor {
         int centerX = player.getLocation().getBlockX();
         int centerZ = player.getLocation().getBlockZ();
 
+        // 末地含有大片虚空，搜索半径乘以5
+        int radius = world.getEnvironment() == World.Environment.THE_END
+                ? maxRadius * 5 : maxRadius;
+
         for (int attempts = 0; attempts < maxAttempts; attempts++) {
-            int x = centerX + random.nextInt(maxRadius * 2) - maxRadius;
-            int z = centerZ + random.nextInt(maxRadius * 2) - maxRadius;
+            int x = centerX + random.nextInt(radius * 2) - radius;
+            int z = centerZ + random.nextInt(radius * 2) - radius;
             int y = world.getHighestBlockYAt(x, z);
 
             if (y < maxHeight && y > 0) {
@@ -107,11 +133,28 @@ public class TprCommand implements CommandExecutor {
         int y = loc.getBlockY();
         int z = loc.getBlockZ();
 
+        // 检查是否在禁止传送的群系中
+        if (!blockedBiomes.isEmpty() && blockedBiomes.contains(world.getBiome(x, y, z))) {
+            return false;
+        }
+
         Material feet = world.getBlockAt(x, y, z).getType();
         Material below = world.getBlockAt(x, y - 1, z).getType();
 
         // 检查脚下是否安全（非空气、非岩浆、非火焰等）
         if (below.isAir() || below == Material.LAVA || below == Material.FIRE) {
+            return false;
+        }
+
+        // 检查是否在水中
+        if (feet == Material.WATER || feet == Material.KELP || feet == Material.KELP_PLANT
+                || feet == Material.SEAGRASS || feet == Material.TALL_SEAGRASS
+                || feet == Material.BUBBLE_COLUMN) {
+            return false;
+        }
+        if (below == Material.WATER || below == Material.KELP || below == Material.KELP_PLANT
+                || below == Material.SEAGRASS || below == Material.TALL_SEAGRASS
+                || below == Material.BUBBLE_COLUMN) {
             return false;
         }
 

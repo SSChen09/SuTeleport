@@ -10,6 +10,20 @@ tpr:
   max-attempts: 50
   # 是否允许在末地使用
   allow-end: false
+  # 禁止传送的群系列表（使用 Bukkit 群系名称，不区分大小写）
+  # 留空则不限制群系
+  blocked-biomes:
+    - OCEAN
+    - DEEP_OCEAN
+    - WARM_OCEAN
+    - DEEP_LUKEWARM_OCEAN
+    - LUKEWARM_OCEAN
+    - COLD_OCEAN
+    - DEEP_COLD_OCEAN
+    - FROZEN_OCEAN
+    - DEEP_FROZEN_OCEAN
+    - RIVER
+    - FROZEN_RIVER
 
 # TPA 传送请求设置
 tpa:

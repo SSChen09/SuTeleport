@@ -75,18 +75,17 @@ public class TpaManager {
         }
 
         if (request.isHere()) {
-            // tpahere: 把发送者传送到目标
-            previousLocationManager.saveLocation(sender);
-            sender.teleport(target.getLocation());
-            sender.sendMessage("§a你已传送到 " + target.getName() + " 的位置！");
-            target.sendMessage("§a你已接受 " + sender.getName() + " 的传送请求！");
+            // tpahere: 把发送者传送到目标（目标来到发送者这里）
+            previousLocationManager.saveLocation(target);
+            target.teleport(sender.getLocation());
+            sender.sendMessage("§a" + target.getName() + " 已传送到你的位置！");
+            target.sendMessage("§a你已传送到 " + sender.getName() + " 的位置！");
         } else {
-            // tpa: 把目标传送到发送者的位置（实际上是发送者传送到目标）
-            // 标准TPA: 发送者传送到目标
+            // tpa: 发送者传送到目标
             previousLocationManager.saveLocation(sender);
             sender.teleport(target.getLocation());
             sender.sendMessage("§a你已传送到 " + target.getName() + " 的位置！");
-            target.sendMessage("§a你已接受 " + sender.getName() + " 的传送请求！");
+            target.sendMessage("§a已接受 " + sender.getName() + " 的传送请求！");
         }
 
         return true;

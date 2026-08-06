@@ -9,8 +9,6 @@ import su.luochen.manager.PermissionManager;
 import su.luochen.manager.PreviousLocationManager;
 import su.luochen.manager.TpaManager;
 import su.luochen.manager.WarpManager;
-import su.luochen.commands.DeathListener;
-import su.luochen.commands.BackCommand;
 
 public class SuTeleport extends JavaPlugin {
 
@@ -39,22 +37,43 @@ public class SuTeleport extends JavaPlugin {
         // 保存默认配置
         saveDefaultConfig();
 
-        getCommand("tpa").setExecutor(new TpaCommand(this, cooldownManager, permissionManager));
-        getCommand("tpahere").setExecutor(new TpahereCommand(this, cooldownManager, permissionManager));
+        // 注册 TPA 命令及 Tab 补全
+        TpaCommand tpaCmd = new TpaCommand(this, cooldownManager, permissionManager, false);
+        TpaCommand tpahereCmd = new TpaCommand(this, cooldownManager, permissionManager, true);
+        getCommand("tpa").setExecutor(tpaCmd);
+        getCommand("tpa").setTabCompleter(tpaCmd);
+        getCommand("tpahere").setExecutor(tpahereCmd);
+        getCommand("tpahere").setTabCompleter(tpahereCmd);
         getCommand("tpaccept").setExecutor(new TpacceptCommand(this, cooldownManager, permissionManager));
         getCommand("tpdeny").setExecutor(new TpdenyCommand(this, permissionManager));
         getCommand("tpr").setExecutor(tprCommand);
         getCommand("suteleport").setExecutor(new ReloadCommand(this));
-        getCommand("warp").setExecutor(new WarpCommand(this, warpManager, cooldownManager, permissionManager));
-        getCommand("setwarp").setExecutor(new SetWarpCommand(this, warpManager, permissionManager));
-        getCommand("delwarp").setExecutor(new DelWarpCommand(this, warpManager, permissionManager));
         getCommand("warps").setExecutor(new WarpsCommand(this, warpManager));
-        getCommand("home").setExecutor(new HomeCommand(this, homeManager, cooldownManager, permissionManager));
-        getCommand("sethome").setExecutor(new SetHomeCommand(this, homeManager, permissionManager));
-        getCommand("delhome").setExecutor(new DelHomeCommand(this, homeManager, permissionManager));
         getCommand("homes").setExecutor(new HomesCommand(this, homeManager));
         getCommand("back").setExecutor(new BackCommand(this, cooldownManager, permissionManager, deathLocationManager));
         getCommand("sback").setExecutor(new SBackCommand(this, cooldownManager, permissionManager, previousLocationManager));
+        getCommand("suicide").setExecutor(new SuicideCommand(this, permissionManager));
+
+        // 注册 Home/Warp 命令及 Tab 补全
+        HomeCommand homeCmd = new HomeCommand(this, homeManager, cooldownManager, permissionManager);
+        SetHomeCommand setHomeCmd = new SetHomeCommand(this, homeManager, permissionManager);
+        DelHomeCommand delHomeCmd = new DelHomeCommand(this, homeManager, permissionManager);
+        WarpCommand warpCmd = new WarpCommand(this, warpManager, cooldownManager, permissionManager);
+        SetWarpCommand setWarpCmd = new SetWarpCommand(this, warpManager, permissionManager);
+        DelWarpCommand delWarpCmd = new DelWarpCommand(this, warpManager, permissionManager);
+
+        getCommand("home").setExecutor(homeCmd);
+        getCommand("home").setTabCompleter(homeCmd);
+        getCommand("sethome").setExecutor(setHomeCmd);
+        getCommand("sethome").setTabCompleter(setHomeCmd);
+        getCommand("delhome").setExecutor(delHomeCmd);
+        getCommand("delhome").setTabCompleter(delHomeCmd);
+        getCommand("warp").setExecutor(warpCmd);
+        getCommand("warp").setTabCompleter(warpCmd);
+        getCommand("setwarp").setExecutor(setWarpCmd);
+        getCommand("setwarp").setTabCompleter(setWarpCmd);
+        getCommand("delwarp").setExecutor(delWarpCmd);
+        getCommand("delwarp").setTabCompleter(delWarpCmd);
 
         // 注册死亡事件监听
         getServer().getPluginManager().registerEvents(new DeathListener(deathLocationManager), this);

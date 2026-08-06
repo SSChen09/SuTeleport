@@ -2,14 +2,10 @@ package su.luochen.manager;
 
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
-import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
-import net.luckperms.api.node.types.PermissionNode;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import su.luochen.SuTeleport;
-
-import java.util.Set;
 
 public class PermissionManager {
 
@@ -70,52 +66,5 @@ public class PermissionManager {
 
         // LuckPerms 完全无法处理该玩家时，回退到 Bukkit 默认权限系统
         return player.hasPermission(permission);
-    }
-
-    /**
-     * 获取玩家的主组名
-     */
-    public String getPrimaryGroup(Player player) {
-        if (!luckPermsEnabled || luckPerms == null) {
-            return "default";
-        }
-
-        try {
-            User user = luckPerms.getUserManager().getUser(player.getUniqueId());
-            if (user == null) {
-                return "default";
-            }
-            return user.getPrimaryGroup();
-        } catch (Exception e) {
-            plugin.getLogger().warning("获取玩家组时出错: " + e.getMessage());
-            return "default";
-        }
-    }
-
-    /**
-     * 获取玩家所在组的所有权限
-     */
-    public Set<String> getGroupPermissions(Player player) {
-        if (!luckPermsEnabled || luckPerms == null) {
-            return java.util.Collections.emptySet();
-        }
-
-        try {
-            User user = luckPerms.getUserManager().getUser(player.getUniqueId());
-            if (user == null) {
-                return java.util.Collections.emptySet();
-            }
-            return user.getCachedData().getPermissionData().getPermissionMap().keySet();
-        } catch (Exception e) {
-            plugin.getLogger().warning("获取玩家权限时出错: " + e.getMessage());
-            return java.util.Collections.emptySet();
-        }
-    }
-
-    /**
-     * 检查 LuckPerms 是否已启用
-     */
-    public boolean isLuckPermsEnabled() {
-        return luckPermsEnabled && luckPerms != null;
     }
 }

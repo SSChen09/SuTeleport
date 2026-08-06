@@ -55,6 +55,10 @@ commands:
   sback:
     description: 回到传送前的上一个位置
     usage: /sback
+  suicide:
+    description: 自杀
+    usage: /suicide
+    aliases: [kill]
 
 permissions:
   suteleport.tpa:
@@ -102,6 +106,9 @@ permissions:
   suteleport.sback:
     description: 允许使用 /sback 回到传送前的位置
     default: true
+  suteleport.suicide:
+    description: 允许使用 /suicide 自杀
+    default: true
   suteleport.reload:
     description: 允许重载插件配置
     default: op
@@ -124,4 +131,5 @@ permissions:
       suteleport.homes: true
       suteleport.back: true
       suteleport.sback: true
+      suteleport.suicide: true
       suteleport.reload: true

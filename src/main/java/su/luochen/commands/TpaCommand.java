@@ -9,21 +9,30 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import su.luochen.SuTeleport;
 import su.luochen.manager.CooldownManager;
 import su.luochen.manager.PermissionManager;
 
-public class TpaCommand implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class TpaCommand implements CommandExecutor, TabCompleter {
 
     private final SuTeleport plugin;
     private final CooldownManager cooldownManager;
     private final PermissionManager permissionManager;
+    private final boolean here;
 
-    public TpaCommand(SuTeleport plugin, CooldownManager cooldownManager, PermissionManager permissionManager) {
+    /**
+     * @param here true = tpahere（目标传送到你）, false = tpa（你传送到目标）
+     */
+    public TpaCommand(SuTeleport plugin, CooldownManager cooldownManager, PermissionManager permissionManager, boolean here) {
         this.plugin = plugin;
         this.cooldownManager = cooldownManager;
         this.permissionManager = permissionManager;
+        this.here = here;
     }
 
     @Override
@@ -33,13 +42,14 @@ public class TpaCommand implements CommandExecutor {
             return true;
         }
 
-        if (!permissionManager.hasPermission(player, "suteleport.tpa")) {
+        String permNode = here ? "suteleport.tpahere" : "suteleport.tpa";
+        if (!permissionManager.hasPermission(player, permNode)) {
             player.sendMessage("§c你没有权限使用此命令！");
             return true;
         }
 
         if (args.length < 1) {
-            player.sendMessage("§c用法: /tpa <玩家名>");
+            player.sendMessage("§c用法: /" + label + " <玩家名>");
             return true;
         }
 
@@ -55,17 +65,24 @@ public class TpaCommand implements CommandExecutor {
         }
 
         // 检查冷却
-        if (!cooldownManager.checkCooldown(player, "tpa")) {
+        if (!cooldownManager.checkCooldown(player, here ? "tpahere" : "tpa")) {
             return true;
         }
 
-        plugin.getTpaManager().sendRequest(player, target, false);
+        plugin.getTpaManager().sendRequest(player, target, here);
 
-        player.sendMessage("§a你已向 " + target.getName() + " 发送传送请求！");
+        if (here) {
+            player.sendMessage("§a你已向 " + target.getName() + " 发送传送请求（传送到你这里）！");
+        } else {
+            player.sendMessage("§a你已向 " + target.getName() + " 发送传送请求！");
+        }
 
         // 发送可点击的传送请求消息给目标
         int timeout = plugin.getConfig().getInt("tpa.timeout", 60);
-        TextComponent requestMsg = new TextComponent(new ComponentBuilder("§e" + player.getName() + " §6请求传送到你的位置！ ")
+        String requestText = here
+                ? "§e" + player.getName() + " §6请求你传送到他的位置！ "
+                : "§e" + player.getName() + " §6请求传送到你的位置！ ";
+        TextComponent requestMsg = new TextComponent(new ComponentBuilder(requestText)
                 .append("§a[接受]")
                 .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"))
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§a点击接受传送请求")))
@@ -77,5 +94,19 @@ public class TpaCommand implements CommandExecutor {
         target.spigot().sendMessage(requestMsg);
 
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        List<String> completions = new ArrayList<>();
+        if (args.length == 1) {
+            String input = args[0].toLowerCase();
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                if (online.getName().toLowerCase().startsWith(input)) {
+                    completions.add(online.getName());
+                }
+            }
+        }
+        return completions;
     }
 }
