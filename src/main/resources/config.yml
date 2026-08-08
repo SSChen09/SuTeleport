@@ -1,20 +1,25 @@
-# SuTeleport 配置文件
+# ============================================================
+# SuTeleport 配置文件 / SuTeleport Config File
+# ============================================================
 
-# 语言设置（对应 language/ 目录下的语言文件，如 zh_CN / en_US）
+# 语言设置 / Language setting
+# 对应 language/ 目录下的语言文件，如 zh_CN / en_US
+# Corresponds to a language file in the language/ folder, e.g. zh_CN / en_US
 language: zh_CN
 
-# 随机传送设置
+# 随机传送设置 / Random teleport settings
 tpr:
-  # 最大传送半径（格）
+  # 最大传送半径（格）/ Maximum teleport radius (blocks)
   max-radius: 5000
-  # 最大高度限制
+  # 最大高度限制 / Maximum height limit
   max-height: 256
-  # 最大尝试次数
+  # 最大尝试次数 / Maximum number of attempts
   max-attempts: 50
-  # 是否允许在末地使用
+  # 是否允许在末地使用 / Whether to allow usage in The End
   allow-end: false
-  # 禁止传送的群系列表（使用 Bukkit 群系名称，不区分大小写）
-  # 留空则不限制群系
+  # 禁止传送的群系列表 / Blocked biomes
+  # 使用 Bukkit 群系名称，不区分大小写 / Use Bukkit biome names, case-insensitive
+  # 留空则不限制群系 / Leave empty to disable biome restrictions
   blocked-biomes:
     - OCEAN
     - DEEP_OCEAN
@@ -28,19 +33,19 @@ tpr:
     - RIVER
     - FROZEN_RIVER
 
-# TPA 传送请求设置
+# TPA 传送请求设置 / TPA teleport request settings
 tpa:
-  # 请求超时时间（秒）
+  # 请求超时时间（秒）/ Request timeout (seconds)
   timeout: 60
 
-# 家设置
+# 家设置 / Home settings
 home:
-  # 每个玩家最多可设置的家数量
+  # 每个玩家最多可设置的家数量 / Maximum number of homes per player
   max-homes: 3
 
-# 命令冷却时间设置（秒），0表示无冷却
+# 命令冷却时间设置（秒），0表示无冷却 / Command cooldown (seconds), 0 means no cooldown
 cooldown:
-  # 传送类命令冷却（秒），0表示无冷却
+  # 传送类命令冷却（秒），0表示无冷却 / Teleport command cooldowns (seconds), 0 means no cooldown
   tpa: 0
   tpahere: 0
   tpaccept: 0
