@@ -70,7 +70,7 @@ public class CooldownManager {
     public boolean checkCooldown(Player player, String command) {
         int remaining = getRemainingCooldown(player, command);
         if (remaining > 0) {
-            player.sendMessage("§c该命令冷却中，还需等待 " + remaining + " 秒！");
+            plugin.getMessageManager().send(player, "cooldown.remaining", remaining);
             return false;
         }
         setCooldown(player, command);

@@ -13,6 +13,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import su.luochen.SuTeleport;
 import su.luochen.manager.CooldownManager;
+import su.luochen.manager.MessageManager;
 import su.luochen.manager.PermissionManager;
 
 import java.util.ArrayList;
@@ -38,29 +39,29 @@ public class TpaCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§c只有玩家才能使用此命令！");
+            plugin.getMessageManager().send(sender, "common.only-player");
             return true;
         }
 
         String permNode = here ? "suteleport.tpahere" : "suteleport.tpa";
         if (!permissionManager.hasPermission(player, permNode)) {
-            player.sendMessage("§c你没有权限使用此命令！");
+            plugin.getMessageManager().send(player, "common.no-permission");
             return true;
         }
 
         if (args.length < 1) {
-            player.sendMessage("§c用法: /" + label + " <玩家名>");
+            plugin.getMessageManager().send(player, "tpa.usage", label);
             return true;
         }
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null || !target.isOnline()) {
-            player.sendMessage("§c玩家 " + args[0] + " 不在线！");
+            plugin.getMessageManager().send(player, "tpa.player-offline", args[0]);
             return true;
         }
 
         if (target.getUniqueId().equals(player.getUniqueId())) {
-            player.sendMessage("§c你不能向自己发送传送请求！");
+            plugin.getMessageManager().send(player, "tpa.self");
             return true;
         }
 
@@ -72,24 +73,25 @@ public class TpaCommand implements CommandExecutor, TabCompleter {
         plugin.getTpaManager().sendRequest(player, target, here);
 
         if (here) {
-            player.sendMessage("§a你已向 " + target.getName() + " 发送传送请求（传送到你这里）！");
+            plugin.getMessageManager().send(player, "tpa.sent-here", target.getName());
         } else {
-            player.sendMessage("§a你已向 " + target.getName() + " 发送传送请求！");
+            plugin.getMessageManager().send(player, "tpa.sent", target.getName());
         }
 
         // 发送可点击的传送请求消息给目标
         int timeout = plugin.getConfig().getInt("tpa.timeout", 60);
+        MessageManager messageManager = plugin.getMessageManager();
         String requestText = here
-                ? "§e" + player.getName() + " §6请求你传送到他的位置！ "
-                : "§e" + player.getName() + " §6请求传送到你的位置！ ";
+                ? messageManager.get("tpa.request-here", player.getName())
+                : messageManager.get("tpa.request-there", player.getName());
         TextComponent requestMsg = new TextComponent(new ComponentBuilder(requestText)
-                .append("§a[接受]")
+                .append(messageManager.get("tpa.accept-button"))
                 .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"))
-                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§a点击接受传送请求")))
-                .append(" §c[拒绝]")
+                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(messageManager.get("tpa.accept-hover"))))
+                .append(messageManager.get("tpa.deny-button"))
                 .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"))
-                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§c点击拒绝传送请求")))
-                .append("§7（" + timeout + "秒后过期）")
+                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(messageManager.get("tpa.deny-hover"))))
+                .append(messageManager.get("tpa.timeout", timeout))
                 .create());
         target.spigot().sendMessage(requestMsg);
 

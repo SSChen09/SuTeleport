@@ -22,24 +22,24 @@ public class HomesCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§c只有玩家才能使用此命令！");
+            plugin.getMessageManager().send(sender, "common.only-player");
             return true;
         }
 
         List<String> homes = homeManager.getHomeNames(player);
 
         if (homes.isEmpty()) {
-            player.sendMessage("§e你还没有设置任何家。");
-            player.sendMessage("§7使用 /sethome <名称> 来设置一个家。");
+            plugin.getMessageManager().send(player, "homes.empty");
+            plugin.getMessageManager().send(player, "homes.hint");
             return true;
         }
 
         int max = homeManager.getMaxHomes();
-        player.sendMessage("§6=== 你的家 (" + homes.size() + "/" + max + ") ===");
+        plugin.getMessageManager().send(player, "homes.header", homes.size(), max);
         for (String home : homes) {
-            player.sendMessage("§e- §f" + home);
+            plugin.getMessageManager().send(player, "homes.entry", home);
         }
-        player.sendMessage("§6========================");
+        plugin.getMessageManager().send(player, "homes.footer");
 
         return true;
     }

@@ -5,6 +5,7 @@ import su.luochen.commands.*;
 import su.luochen.manager.CooldownManager;
 import su.luochen.manager.DeathLocationManager;
 import su.luochen.manager.HomeManager;
+import su.luochen.manager.MessageManager;
 import su.luochen.manager.PermissionManager;
 import su.luochen.manager.PreviousLocationManager;
 import su.luochen.manager.TpaManager;
@@ -13,6 +14,7 @@ import su.luochen.manager.WarpManager;
 public class SuTeleport extends JavaPlugin {
 
     private static SuTeleport instance;
+    private MessageManager messageManager;
     private TpaManager tpaManager;
     private WarpManager warpManager;
     private HomeManager homeManager;
@@ -25,6 +27,9 @@ public class SuTeleport extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        // 保存默认配置
+        saveDefaultConfig();
+        messageManager = new MessageManager(this);
         previousLocationManager = new PreviousLocationManager();
         tpaManager = new TpaManager(this, previousLocationManager);
         warpManager = new WarpManager(this, previousLocationManager);
@@ -33,9 +38,6 @@ public class SuTeleport extends JavaPlugin {
         permissionManager = new PermissionManager(this);
         deathLocationManager = new DeathLocationManager(this);
         tprCommand = new TprCommand(this, cooldownManager, permissionManager);
-
-        // 保存默认配置
-        saveDefaultConfig();
 
         // 注册 TPA 命令及 Tab 补全
         TpaCommand tpaCmd = new TpaCommand(this, cooldownManager, permissionManager, false);
@@ -76,7 +78,7 @@ public class SuTeleport extends JavaPlugin {
         getCommand("delwarp").setTabCompleter(delWarpCmd);
 
         // 注册死亡事件监听
-        getServer().getPluginManager().registerEvents(new DeathListener(deathLocationManager), this);
+        getServer().getPluginManager().registerEvents(new DeathListener(this, deathLocationManager), this);
 
         getLogger().info("SuTeleport 已启用！");
     }
@@ -88,6 +90,10 @@ public class SuTeleport extends JavaPlugin {
 
     public static SuTeleport getInstance() {
         return instance;
+    }
+
+    public MessageManager getMessageManager() {
+        return messageManager;
     }
 
     public TpaManager getTpaManager() {

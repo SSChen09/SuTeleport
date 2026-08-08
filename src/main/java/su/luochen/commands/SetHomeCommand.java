@@ -27,12 +27,12 @@ public class SetHomeCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§c只有玩家才能使用此命令！");
+            plugin.getMessageManager().send(sender, "common.only-player");
             return true;
         }
 
         if (!permissionManager.hasPermission(player, "suteleport.home.set")) {
-            player.sendMessage("§c你没有权限使用此命令！");
+            plugin.getMessageManager().send(player, "common.no-permission");
             return true;
         }
 
@@ -42,10 +42,10 @@ public class SetHomeCommand implements CommandExecutor, TabCompleter {
         }
 
         if (homeManager.setHome(homeName, player)) {
-            player.sendMessage("§a家 " + homeName + " 已设置！");
+            plugin.getMessageManager().send(player, "sethome.set", homeName);
             int count = homeManager.getHomeCount(player);
             int max = homeManager.getMaxHomes();
-            player.sendMessage("§7当前家数量: " + count + "/" + max);
+            plugin.getMessageManager().send(player, "sethome.count", count, max);
         }
 
         return true;

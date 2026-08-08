@@ -27,17 +27,17 @@ public class SBackCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§c只有玩家才能使用此命令！");
+            plugin.getMessageManager().send(sender, "common.only-player");
             return true;
         }
 
         if (!permissionManager.hasPermission(player, "suteleport.sback")) {
-            player.sendMessage("§c你没有权限使用此命令！");
+            plugin.getMessageManager().send(player, "common.no-permission");
             return true;
         }
 
         if (!previousLocationManager.hasPreviousLocation(player)) {
-            player.sendMessage("§c你没有上一个位置的记录！");
+            plugin.getMessageManager().send(player, "sback.no-location");
             return true;
         }
 
@@ -53,7 +53,7 @@ public class SBackCommand implements CommandExecutor {
 
         // 传送
         player.teleport(prevLoc);
-        player.sendMessage("§a已将你传送回上一个位置！");
+        plugin.getMessageManager().send(player, "sback.success");
 
         return true;
     }

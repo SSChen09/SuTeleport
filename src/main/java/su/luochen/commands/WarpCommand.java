@@ -30,24 +30,24 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§c只有玩家才能使用此命令！");
+            plugin.getMessageManager().send(sender, "common.only-player");
             return true;
         }
 
         if (!permissionManager.hasPermission(player, "suteleport.warp")) {
-            player.sendMessage("§c你没有权限使用此命令！");
+            plugin.getMessageManager().send(player, "common.no-permission");
             return true;
         }
 
         if (args.length < 1) {
-            player.sendMessage("§c用法: /warp <传送点名称>");
+            plugin.getMessageManager().send(player, "warp.usage");
             return true;
         }
 
         String warpName = args[0];
 
         if (!warpManager.warpExists(warpName)) {
-            player.sendMessage("§c传送点 " + warpName + " 不存在！");
+            plugin.getMessageManager().send(player, "warp.not-exist", warpName);
             return true;
         }
 
@@ -57,7 +57,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
         }
 
         if (warpManager.teleportToWarp(warpName, player)) {
-            player.sendMessage("§a已传送到 " + warpName + "！");
+            plugin.getMessageManager().send(player, "warp.teleported", warpName);
         }
 
         return true;

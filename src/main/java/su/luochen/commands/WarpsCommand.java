@@ -23,15 +23,15 @@ public class WarpsCommand implements CommandExecutor {
         List<String> warps = warpManager.getWarpNames();
 
         if (warps.isEmpty()) {
-            sender.sendMessage("§e当前没有任何传送点。");
+            plugin.getMessageManager().send(sender, "warps.empty");
             return true;
         }
 
-        sender.sendMessage("§6=== 传送点列表 ===");
+        plugin.getMessageManager().send(sender, "warps.header");
         for (String warp : warps) {
-            sender.sendMessage("§e- §f" + warp);
+            plugin.getMessageManager().send(sender, "warps.entry", warp);
         }
-        sender.sendMessage("§6==================");
+        plugin.getMessageManager().send(sender, "warps.footer");
 
         return true;
     }

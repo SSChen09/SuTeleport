@@ -63,7 +63,7 @@ public class HomeManager {
         if (!homeConfig.contains(path)) {
             int currentHomes = getHomeCount(player);
             if (currentHomes >= maxHomes) {
-                player.sendMessage("§c你已达到最大数量限制（" + maxHomes + " 个）！");
+                plugin.getMessageManager().send(player, "home.max-reached", maxHomes);
                 return false;
             }
         }
@@ -93,7 +93,7 @@ public class HomeManager {
         String worldName = homeConfig.getString(path + ".world");
         World world = Bukkit.getWorld(worldName);
         if (world == null) {
-            player.sendMessage("§c世界 " + worldName + " 不存在！");
+            plugin.getMessageManager().send(player, "common.world-not-exist", worldName);
             return false;
         }
 

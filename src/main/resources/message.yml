@@ -1,0 +1,90 @@
+# SuTeleport 消息配置文件
+# 所有发送给玩家的消息都集中在这里，方便统一修改
+# 支持 & 颜色代码与 {0} {1} 占位符
+messages:
+  common:
+    only-player: '&c只有玩家才能使用此命令！'
+    no-permission: '&c你没有权限使用此命令！'
+    world-not-exist: '&c世界 {0} 不存在！'
+  back:
+    no-location: '&c你没有死亡位置记录！'
+    safety: '&a已将你传送回死亡位置附近的安全地点！'
+    fire: '&e已将你传送回死亡位置，并给予 &a{0}秒抗火 &e效果！'
+    success: '&a已将你传送回死亡位置！'
+  death:
+    recorded: '&e你的死亡位置已记录！使用 &a/back &e回到死亡点。'
+  home:
+    usage: '&c用法: /home <家名称>'
+    not-exist: '&c家 {0} 不存在！'
+    teleported: '&a已传送到家 {0}！'
+    max-reached: '&c你已达到最大数量限制（{0} 个）！'
+  sethome:
+    set: '&a家 {0} 已设置！'
+    count: '&7当前家数量: {0}/{1}'
+  delhome:
+    usage: '&c用法: /delhome <家名称>'
+    deleted: '&a家 {0} 已删除！'
+  homes:
+    empty: '&e你还没有设置任何家。'
+    hint: '&7使用 /sethome <名称> 来设置一个家。'
+    header: '&6=== 你的家 ({0}/{1}) ==='
+    entry: '&e- &f{0}'
+    footer: '&6========================'
+  warp:
+    usage: '&c用法: /warp <传送点名称>'
+    not-exist: '&c传送点 {0} 不存在！'
+    teleported: '&a已传送到 {0}！'
+  setwarp:
+    no-permission: '&c你没有权限设置传送点！'
+    usage: '&c用法: /setwarp <传送点名称>'
+    set: '&a传送点 {0} 已设置！'
+  delwarp:
+    no-permission: '&c你没有权限删除传送点！'
+    usage: '&c用法: /delwarp <传送点名称>'
+    deleted: '&a传送点 {0} 已删除！'
+  warps:
+    empty: '&e当前没有任何传送点。'
+    header: '&6=== 传送点列表 ==='
+    entry: '&e- &f{0}'
+    footer: '&6=================='
+  tpa:
+    usage: '&c用法: /{0} <玩家名>'
+    player-offline: '&c玩家 {0} 不在线！'
+    self: '&c你不能向自己发送传送请求！'
+    no-pending: '&c你没有待处理的传送请求！'
+    sent: '&a你已向 {0} 发送传送请求！'
+    sent-here: '&a你已向 {0} 发送传送请求（传送到你这里）！'
+    request-here: '&e{0} &6请求你传送到他的位置！ '
+    request-there: '&e{0} &6请求传送到你的位置！ '
+    accept-button: '&a[接受]'
+    accept-hover: '&a点击接受传送请求'
+    deny-button: ' &c[拒绝]'
+    deny-hover: '&c点击拒绝传送请求'
+    timeout: '&7（{0}秒后过期）'
+    timeout-sender: '&c你的传送请求已超时！'
+    timeout-target: '&c来自 {0} 的传送请求已超时！'
+    sender-offline: '&c发送请求的玩家已离线！'
+    accept-here: '&a{0} 已传送到你的位置！'
+    accepted: '&a你已传送到 {0} 的位置！'
+    accepted-target: '&a你已传送到 {0} 的位置！'
+    accept-target: '&a已接受 {0} 的传送请求！'
+    denied: '&c{0} 拒绝了你的传送请求！'
+    deny-self: '&c你已拒绝传送请求。'
+    overridden: '&c你的传送请求已被新的请求覆盖。'
+  tpr:
+    no-end: '&c末地中无法使用随机传送！'
+    searching: '&e正在为你寻找随机位置...'
+    success: '&a已将你传送到随机位置！'
+    coords: '&7坐标: {0}, {1}, {2}'
+    fail: '&c无法找到安全的随机位置，请重试！'
+  sback:
+    no-location: '&c你没有上一个位置的记录！'
+    success: '&a已将你传送回上一个位置！'
+  suicide:
+    message: '&c你已自杀。'
+  reload:
+    usage: '&e用法: /suteleport reload'
+    no-permission: '&c你没有权限执行此命令！'
+    success: '&aSuTeleport 配置已重载！'
+  cooldown:
+    remaining: '&c该命令冷却中，还需等待 {0} 秒！'

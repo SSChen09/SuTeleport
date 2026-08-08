@@ -27,24 +27,24 @@ public class SetWarpCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§c只有玩家才能使用此命令！");
+            plugin.getMessageManager().send(sender, "common.only-player");
             return true;
         }
 
         if (!permissionManager.hasPermission(player, "suteleport.warp.set")) {
-            player.sendMessage("§c你没有权限设置传送点！");
+            plugin.getMessageManager().send(player, "setwarp.no-permission");
             return true;
         }
 
         if (args.length < 1) {
-            player.sendMessage("§c用法: /setwarp <传送点名称>");
+            plugin.getMessageManager().send(player, "setwarp.usage");
             return true;
         }
 
         String warpName = args[0];
 
         if (warpManager.setWarp(warpName, player)) {
-            player.sendMessage("§a传送点 " + warpName + " 已设置！");
+            plugin.getMessageManager().send(player, "setwarp.set", warpName);
         }
 
         return true;

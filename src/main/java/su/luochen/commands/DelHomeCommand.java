@@ -27,29 +27,29 @@ public class DelHomeCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§c只有玩家才能使用此命令！");
+            plugin.getMessageManager().send(sender, "common.only-player");
             return true;
         }
 
         if (!permissionManager.hasPermission(player, "suteleport.home.delete")) {
-            player.sendMessage("§c你没有权限使用此命令！");
+            plugin.getMessageManager().send(player, "common.no-permission");
             return true;
         }
 
         if (args.length < 1) {
-            player.sendMessage("§c用法: /delhome <家名称>");
+            plugin.getMessageManager().send(player, "delhome.usage");
             return true;
         }
 
         String homeName = args[0];
 
         if (!homeManager.homeExists(homeName, player)) {
-            player.sendMessage("§c家 " + homeName + " 不存在！");
+            plugin.getMessageManager().send(player, "home.not-exist", homeName);
             return true;
         }
 
         if (homeManager.deleteHome(homeName, player)) {
-            player.sendMessage("§a家 " + homeName + " 已删除！");
+            plugin.getMessageManager().send(player, "delhome.deleted", homeName);
         }
 
         return true;

@@ -48,10 +48,10 @@ public class TpaManager {
                 Player s = Bukkit.getPlayer(sender.getUniqueId());
                 Player t = Bukkit.getPlayer(targetId);
                 if (s != null) {
-                    s.sendMessage("§c你的传送请求已超时！");
+                    plugin.getMessageManager().send(s, "tpa.timeout-sender");
                 }
                 if (t != null) {
-                    t.sendMessage("§c来自 " + sender.getName() + " 的传送请求已超时！");
+                    plugin.getMessageManager().send(t, "tpa.timeout-target", sender.getName());
                 }
             }
         }, requestTimeoutTicks);
@@ -70,7 +70,7 @@ public class TpaManager {
 
         Player sender = Bukkit.getPlayer(request.getSender());
         if (sender == null || !sender.isOnline()) {
-            target.sendMessage("§c发送请求的玩家已离线！");
+            plugin.getMessageManager().send(target, "tpa.sender-offline");
             return false;
         }
 
@@ -78,14 +78,14 @@ public class TpaManager {
             // tpahere: 把发送者传送到目标（目标来到发送者这里）
             previousLocationManager.saveLocation(target);
             target.teleport(sender.getLocation());
-            sender.sendMessage("§a" + target.getName() + " 已传送到你的位置！");
-            target.sendMessage("§a你已传送到 " + sender.getName() + " 的位置！");
+            plugin.getMessageManager().send(sender, "tpa.accept-here", target.getName());
+            plugin.getMessageManager().send(target, "tpa.accepted-target", sender.getName());
         } else {
             // tpa: 发送者传送到目标
             previousLocationManager.saveLocation(sender);
             sender.teleport(target.getLocation());
-            sender.sendMessage("§a你已传送到 " + target.getName() + " 的位置！");
-            target.sendMessage("§a已接受 " + sender.getName() + " 的传送请求！");
+            plugin.getMessageManager().send(sender, "tpa.accepted", target.getName());
+            plugin.getMessageManager().send(target, "tpa.accept-target", sender.getName());
         }
 
         return true;
@@ -104,9 +104,9 @@ public class TpaManager {
 
         Player sender = Bukkit.getPlayer(request.getSender());
         if (sender != null && sender.isOnline()) {
-            sender.sendMessage("§c" + target.getName() + " 拒绝了你的传送请求！");
+            plugin.getMessageManager().send(sender, "tpa.denied", target.getName());
         }
-        target.sendMessage("§c你已拒绝传送请求。");
+        plugin.getMessageManager().send(target, "tpa.deny-self");
 
         return true;
     }
@@ -116,7 +116,7 @@ public class TpaManager {
         if (old != null) {
             Player sender = Bukkit.getPlayer(old.getSender());
             if (sender != null && sender.isOnline()) {
-                sender.sendMessage("§c你的传送请求已被新的请求覆盖。");
+                plugin.getMessageManager().send(sender, "tpa.overridden");
             }
         }
     }

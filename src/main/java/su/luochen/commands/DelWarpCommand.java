@@ -27,29 +27,29 @@ public class DelWarpCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§c只有玩家才能使用此命令！");
+            plugin.getMessageManager().send(sender, "common.only-player");
             return true;
         }
 
         if (!permissionManager.hasPermission(player, "suteleport.warp.delete")) {
-            player.sendMessage("§c你没有权限删除传送点！");
+            plugin.getMessageManager().send(player, "delwarp.no-permission");
             return true;
         }
 
         if (args.length < 1) {
-            player.sendMessage("§c用法: /delwarp <传送点名称>");
+            plugin.getMessageManager().send(player, "delwarp.usage");
             return true;
         }
 
         String warpName = args[0];
 
         if (!warpManager.warpExists(warpName)) {
-            player.sendMessage("§c传送点 " + warpName + " 不存在！");
+            plugin.getMessageManager().send(player, "warp.not-exist", warpName);
             return true;
         }
 
         if (warpManager.deleteWarp(warpName)) {
-            player.sendMessage("§a传送点 " + warpName + " 已删除！");
+            plugin.getMessageManager().send(player, "delwarp.deleted", warpName);
         }
 
         return true;

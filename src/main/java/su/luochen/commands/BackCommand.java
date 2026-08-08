@@ -37,17 +37,17 @@ public class BackCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§c只有玩家才能使用此命令！");
+            plugin.getMessageManager().send(sender, "common.only-player");
             return true;
         }
 
         if (!permissionManager.hasPermission(player, "suteleport.back")) {
-            player.sendMessage("§c你没有权限使用此命令！");
+            plugin.getMessageManager().send(player, "common.no-permission");
             return true;
         }
 
         if (!deathLocationManager.hasDeathLocation(player)) {
-            player.sendMessage("§c你没有死亡位置记录！");
+            plugin.getMessageManager().send(player, "back.no-location");
             return true;
         }
 
@@ -70,18 +70,18 @@ public class BackCommand implements CommandExecutor {
             Location safeLoc = findSafeLocation(deathLoc);
             if (safeLoc != null) {
                 player.teleport(safeLoc);
-                player.sendMessage("§a已将你传送回死亡位置附近的安全地点！");
+                plugin.getMessageManager().send(player, "back.safety");
             } else {
                 // 没有安全位置，给予抗火并传送到死亡位置
                 player.teleport(deathLoc);
                 player.addPotionEffect(new PotionEffect(
                         PotionEffectType.FIRE_RESISTANCE,
                         FIRE_RESISTANCE_SECONDS * 20, 0, false, true, true));
-                player.sendMessage("§e已将你传送回死亡位置，并给予 §a" + FIRE_RESISTANCE_SECONDS + "秒抗火 §e效果！");
+                plugin.getMessageManager().send(player, "back.fire", FIRE_RESISTANCE_SECONDS);
             }
         } else {
             player.teleport(deathLoc);
-            player.sendMessage("§a已将你传送回死亡位置！");
+            plugin.getMessageManager().send(player, "back.success");
         }
 
         return true;

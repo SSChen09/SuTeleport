@@ -59,18 +59,18 @@ public class TprCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§c只有玩家才能使用此命令！");
+            plugin.getMessageManager().send(sender, "common.only-player");
             return true;
         }
 
         if (!permissionManager.hasPermission(player, "suteleport.tpr")) {
-            player.sendMessage("§c你没有权限使用此命令！");
+            plugin.getMessageManager().send(player, "common.no-permission");
             return true;
         }
 
         // 检查是否在末地
         if (!allowEnd && player.getWorld().getEnvironment() == World.Environment.THE_END) {
-            player.sendMessage("§c末地中无法使用随机传送！");
+            plugin.getMessageManager().send(player, "tpr.no-end");
             return true;
         }
 
@@ -79,7 +79,7 @@ public class TprCommand implements CommandExecutor {
             return true;
         }
 
-        player.sendMessage("§e正在为你寻找随机位置...");
+        plugin.getMessageManager().send(player, "tpr.searching");
 
         // 异步寻找安全位置
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
@@ -88,12 +88,12 @@ public class TprCommand implements CommandExecutor {
                 plugin.getServer().getScheduler().runTask(plugin, () -> {
                     plugin.getPreviousLocationManager().saveLocation(player);
                     player.teleport(safeLoc);
-                    player.sendMessage("§a已将你传送到随机位置！");
-                    player.sendMessage("§7坐标: " + safeLoc.getBlockX() + ", " + safeLoc.getBlockY() + ", " + safeLoc.getBlockZ());
+                    plugin.getMessageManager().send(player, "tpr.success");
+                    plugin.getMessageManager().send(player, "tpr.coords", safeLoc.getBlockX(), safeLoc.getBlockY(), safeLoc.getBlockZ());
                 });
             } else {
                 plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.sendMessage("§c无法找到安全的随机位置，请重试！");
+                    plugin.getMessageManager().send(player, "tpr.fail");
                 });
             }
         });

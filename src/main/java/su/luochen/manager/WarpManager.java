@@ -76,7 +76,7 @@ public class WarpManager {
         String worldName = warpConfig.getString(path + ".world");
         World world = Bukkit.getWorld(worldName);
         if (world == null) {
-            player.sendMessage("§c世界 " + worldName + " 不存在！");
+            plugin.getMessageManager().send(player, "common.world-not-exist", worldName);
             return false;
         }
 
