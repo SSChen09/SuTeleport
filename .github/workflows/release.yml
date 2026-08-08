@@ -32,8 +32,21 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
+      # 获取该标签对应的提交信息，作为 Release 正文
+      - name: Get commit message
+        id: commit
+        run: |
+          {
+            echo 'body<<EOF'
+            git log -1 --pretty=%B
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: build/libs/*.jar
+          name: SuTeleport ${{ github.ref_name }}
+          # 正文 = 该次提交的提交信息 + 自动生成的变更日志
+          body: ${{ steps.commit.outputs.body }}
           generate_release_notes: true

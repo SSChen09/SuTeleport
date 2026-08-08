@@ -190,7 +190,7 @@ cd SuTeleport
 
 The build artifact is located at `build/libs/SuTeleport-1.0.jar`.
 
-> 🚀 This repository is configured with **GitHub Actions auto-build**: pushing code or opening a PR triggers an automatic build and uploads the jar artifact; pushing a `v*` tag (e.g. `v1.0`) automatically creates a GitHub Release.
+> 🚀 This repository is configured with **GitHub Actions auto-build**: pushing code or opening a PR triggers an automatic build and uploads the jar artifact; pushing a `v*` tag (e.g. `v1.0`) automatically creates a GitHub Release whose body contains the commit message of that tag and auto-generated release notes.
 
 ## Installation
 
