@@ -155,6 +155,8 @@ messages:
 
 **Adding a new language**: copy a language file (e.g. `zh_CN.yml`) and rename it to `<language-code>.yml`, translate the content, then set `language` in `config.yml` to that code and run `/suteleport reload`.
 
+**Submit translations via PR**: Contributions of new language files or improvements to existing translations are welcome through Pull Requests. Place the language file in the `src/main/resources/language/` folder (e.g. `ja_JP.yml`). The PR will automatically trigger a GitHub Actions build check and the translation becomes available after the merge.
+
 ## LuckPerms Integration
 
 The plugin automatically detects LuckPerms:

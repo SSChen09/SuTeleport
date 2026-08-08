@@ -155,6 +155,8 @@ messages:
 
 **添加新语言**：复制一份语言文件（如 `zh_CN.yml`）重命名为 `<语言代码>.yml`，翻译内容后将 `config.yml` 的 `language` 改为该语言代码，执行 `/suteleport reload` 即可生效。
 
+**通过 PR 提交翻译**：欢迎通过 Pull Request 贡献新的语言文件或改进现有翻译。请将语言文件放入 `src/main/resources/language/` 目录（如 `ja_JP.yml`），PR 会自动触发 GitHub Actions 构建验证，合并后即可在插件中使用。
+
 ## LuckPerms 集成
 
 插件自动检测 LuckPerms：
