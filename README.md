@@ -188,10 +188,12 @@ cd SuTeleport
 ./gradlew build
 ```
 
-构建产物位于 `build/libs/SuTeleport-1.2.jar`。
+构建产物位于 `build/libs/SuTeleport-1.0.jar`。
+
+> 🚀 仓库已配置 **GitHub Actions 自动构建**：推送代码或提交 PR 后自动编译并上传 jar 构建产物；推送 `v*` 标签（如 `v1.0`）时会自动创建 GitHub Release。
 
 ## 安装
 
-1. 将 `SuTeleport-1.2.jar` 放入服务器 `plugins/` 目录
+1. 将 `SuTeleport-1.0.jar` 放入服务器 `plugins/` 目录
 2. 重启服务器或执行 `reload`
 3. 根据需要修改 `plugins/SuTeleport/config.yml` 与 `plugins/SuTeleport/language/` 下的语言文件

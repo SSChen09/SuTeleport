@@ -188,10 +188,12 @@ cd SuTeleport
 ./gradlew build
 ```
 
-The build artifact is located at `build/libs/SuTeleport-1.2.jar`.
+The build artifact is located at `build/libs/SuTeleport-1.0.jar`.
+
+> 🚀 This repository is configured with **GitHub Actions auto-build**: pushing code or opening a PR triggers an automatic build and uploads the jar artifact; pushing a `v*` tag (e.g. `v1.0`) automatically creates a GitHub Release.
 
 ## Installation
 
-1. Put `SuTeleport-1.2.jar` into the server's `plugins/` folder
+1. Put `SuTeleport-1.0.jar` into the server's `plugins/` folder
 2. Restart the server or run `reload`
 3. Adjust `plugins/SuTeleport/config.yml` and the language files under `plugins/SuTeleport/language/` as needed

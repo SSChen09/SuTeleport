@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'su.luochen'
-version = '1.2'
+version = '1.0'
 
 repositories {
     mavenCentral()

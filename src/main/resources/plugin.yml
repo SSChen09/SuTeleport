@@ -1,5 +1,5 @@
 name: SuTeleport
-version: '1.0-SNAPSHOT'
+version: '1.0'
 main: su.luochen.SuTeleport
 api-version: '1.21'
 # 插件描述 / Plugin description
