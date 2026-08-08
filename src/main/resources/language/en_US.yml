@@ -1,0 +1,90 @@
+# SuTeleport Language File - English (en_US)
+# All player-facing messages are stored here for easy editing
+# Supports & color codes and {0} {1} placeholders
+messages:
+  common:
+    only-player: '&cOnly players can use this command!'
+    no-permission: '&cYou do not have permission to use this command!'
+    world-not-exist: '&cWorld {0} does not exist!'
+  back:
+    no-location: '&cYou have no death location recorded!'
+    safety: '&aYou have been teleported to a safe place near your death location!'
+    fire: '&eYou have been teleported to your death location with &a{0}s of fire resistance &eeffect!'
+    success: '&aYou have been teleported back to your death location!'
+  death:
+    recorded: '&eYour death location has been recorded! Use &a/back &eto return to your death point.'
+  home:
+    usage: '&cUsage: /home <name>'
+    not-exist: '&cHome {0} does not exist!'
+    teleported: '&aTeleported to home {0}!'
+    max-reached: '&cYou have reached the maximum number of homes ({0})!'
+  sethome:
+    set: '&aHome {0} has been set!'
+    count: '&7Current homes: {0}/{1}'
+  delhome:
+    usage: '&cUsage: /delhome <name>'
+    deleted: '&aHome {0} has been deleted!'
+  homes:
+    empty: '&eYou have not set any homes yet.'
+    hint: '&7Use /sethome <name> to set a home.'
+    header: '&6=== Your Homes ({0}/{1}) ==='
+    entry: '&e- &f{0}'
+    footer: '&6========================'
+  warp:
+    usage: '&cUsage: /warp <name>'
+    not-exist: '&cWarp {0} does not exist!'
+    teleported: '&aTeleported to {0}!'
+  setwarp:
+    no-permission: '&cYou do not have permission to set warps!'
+    usage: '&cUsage: /setwarp <name>'
+    set: '&aWarp {0} has been set!'
+  delwarp:
+    no-permission: '&cYou do not have permission to delete warps!'
+    usage: '&cUsage: /delwarp <name>'
+    deleted: '&aWarp {0} has been deleted!'
+  warps:
+    empty: '&eThere are no warps yet.'
+    header: '&6=== Warp List ==='
+    entry: '&e- &f{0}'
+    footer: '&6=================='
+  tpa:
+    usage: '&cUsage: /{0} <player>'
+    player-offline: '&cPlayer {0} is not online!'
+    self: '&cYou cannot send a teleport request to yourself!'
+    no-pending: '&cYou have no pending teleport request!'
+    sent: '&aYou have sent a teleport request to {0}!'
+    sent-here: '&aYou have sent a teleport request to {0} (teleport to you)!'
+    request-here: '&e{0} &6requests you to teleport to their location! '
+    request-there: '&e{0} &6requests to teleport to your location! '
+    accept-button: '&a[Accept]'
+    accept-hover: '&aClick to accept the teleport request'
+    deny-button: ' &c[Deny]'
+    deny-hover: '&cClick to deny the teleport request'
+    timeout: '&7(expires in {0}s)'
+    timeout-sender: '&cYour teleport request has expired!'
+    timeout-target: '&cThe teleport request from {0} has expired!'
+    sender-offline: '&cThe player who sent the request is offline!'
+    accept-here: '&a{0} has been teleported to your location!'
+    accepted: '&aYou have been teleported to the location of {0}!'
+    accepted-target: '&aYou have been teleported to the location of {0}!'
+    accept-target: '&aThe teleport request of {0} has been accepted!'
+    denied: '&c{0} has denied your teleport request!'
+    deny-self: '&cYou have denied the teleport request.'
+    overridden: '&cYour teleport request has been overridden by a new request.'
+  tpr:
+    no-end: '&cRandom teleport cannot be used in The End!'
+    searching: '&eSearching for a random location...'
+    success: '&aYou have been teleported to a random location!'
+    coords: '&7Coordinates: {0}, {1}, {2}'
+    fail: '&cCould not find a safe random location, please try again!'
+  sback:
+    no-location: '&cYou have no previous location recorded!'
+    success: '&aYou have been teleported back to your previous location!'
+  suicide:
+    message: '&cYou have committed suicide.'
+  reload:
+    usage: '&eUsage: /suteleport reload'
+    no-permission: '&cYou do not have permission to execute this command!'
+    success: '&aSuTeleport configuration has been reloaded!'
+  cooldown:
+    remaining: '&cCommand is on cooldown, please wait {0} more seconds!'

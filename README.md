@@ -1,5 +1,7 @@
 # SuTeleport
 
+> 🌐 [English](README_EN.md) | **简体中文**
+
 一个功能全面的 Minecraft Spigot 传送插件，支持 TPA、TPR、Warp、Home 等多种传送方式，集成 LuckPerms 权限管理。
 
 ## 功能特性
@@ -14,7 +16,8 @@
 | **回到传送前** | `/sback` 回到传送前的上一个位置 |
 | **命令冷却** | 所有传送类命令支持独立冷却时间 |
 | **权限管理** | 集成 LuckPerms，未安装时自动回退 Bukkit 权限 |
-| **热重载** | 支持 `/suteleport reload` 重载配置 |
+| **国际化 (i18n)** | 多语言支持，语言文件位于 `language/` 目录，默认内置中英文 |
+| **热重载** | 支持 `/suteleport reload` 热重载配置与消息 |
 
 ## 兼容性
 
@@ -63,7 +66,8 @@
 |------|------|
 | `/back` | 回到上一次死亡的位置 |
 | `/sback` | 回到传送前的上一个位置 |
-| `/suteleport reload` (别名 `/stp reload`) | 重载插件配置 |
+| `/suicide` (别名 `/kill`) | 自杀 |
+| `/suteleport reload` (别名 `/stp reload`) | 重载插件配置与消息 |
 
 ## 权限节点
 
@@ -84,14 +88,18 @@
 | `suteleport.homes` | ✅ 所有玩家 | 使用 /homes |
 | `suteleport.back` | ✅ 所有玩家 | 使用 /back |
 | `suteleport.sback` | ✅ 所有玩家 | 使用 /sback |
+| `suteleport.suicide` | ✅ 所有玩家 | 使用 /suicide |
 | `suteleport.reload` | 🔒 OP | 使用 /suteleport reload |
 | `suteleport.*` | 🔒 OP | 拥有所有权限 |
 
 ## 配置文件
 
-插件首次运行会自动生成 `config.yml`：
+插件首次运行会自动生成 `config.yml` 与 `language/` 语言目录。
 
 ```yaml
+# 语言设置（对应 language/ 目录下的语言文件，如 zh_CN / en_US）
+language: zh_CN
+
 # 随机传送设置
 tpr:
   max-radius: 5000        # 最大传送半径（格）
@@ -119,7 +127,33 @@ cooldown:
   sback: 0
 ```
 
-修改配置后使用 `/suteleport reload` 即可热重载。
+### 语言文件 `language/`
+
+支持国际化，所有发送给玩家的消息按语言存放在 `language/` 目录下，通过 `config.yml` 的 `language` 键选择全局语言：
+
+| 文件 | 语言 |
+|------|------|
+| `zh_CN.yml` | 简体中文（默认） |
+| `en_US.yml` | 英文 |
+
+语言文件内的消息结构（以 `zh_CN.yml` 为例）：
+
+```yaml
+messages:
+  common:
+    only-player: '&c只有玩家才能使用此命令！'
+    no-permission: '&c你没有权限使用此命令！'
+  home:
+    not-exist: '&c家 {0} 不存在！'
+    teleported: '&a已传送到家 {0}！'
+```
+
+- 支持 **`&` 颜色代码**（自动转换为 `§`），例如 `&c` 红色、`&a` 绿色、`&e` 黄色、`&7` 灰色。
+- 支持 **位置占位符** `{0}` `{1}` `{2}`...，按顺序被实际内容替换。不同消息中占位符含义不同，常见为：
+  - 玩家名、家名、传送点名（如 `home.teleported` 的 `{0}` = 家名）
+  - 数量、秒数、坐标（如 `tpr.coords` 的 `{0}` `{1}` `{2}` = X / Y / Z）
+
+**添加新语言**：复制一份语言文件（如 `zh_CN.yml`）重命名为 `<语言代码>.yml`，翻译内容后将 `config.yml` 的 `language` 改为该语言代码，执行 `/suteleport reload` 即可生效。
 
 ## LuckPerms 集成
 
@@ -138,7 +172,8 @@ LuckPerms 使用示例：
 
 | 文件 | 用途 |
 |------|------|
-| `config.yml` | 插件配置文件 |
+| `config.yml` | 插件功能配置（含语言设置） |
+| `language/` | 多语言消息文件（zh_CN.yml / en_US.yml，可自行添加） |
 | `warps.yml` | 全局传送点数据 |
 | `homes.yml` | 玩家家数据（按 UUID 分组） |
 
@@ -153,10 +188,10 @@ cd SuTeleport
 ./gradlew build
 ```
 
-构建产物位于 `build/libs/SuTeleport-1.0-SNAPSHOT.jar`。
+构建产物位于 `build/libs/SuTeleport-1.2.jar`。
 
 ## 安装
 
-1. 将 `SuTeleport-1.0-SNAPSHOT.jar` 放入服务器 `plugins/` 目录
+1. 将 `SuTeleport-1.2.jar` 放入服务器 `plugins/` 目录
 2. 重启服务器或执行 `reload`
-3. 根据需要修改 `plugins/SuTeleport/config.yml`
+3. 根据需要修改 `plugins/SuTeleport/config.yml` 与 `plugins/SuTeleport/language/` 下的语言文件
