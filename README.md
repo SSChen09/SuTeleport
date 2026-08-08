@@ -190,7 +190,16 @@ cd SuTeleport
 
 构建产物位于 `build/libs/SuTeleport-1.0.jar`。
 
-> 🚀 仓库已配置 **GitHub Actions 自动构建**：推送代码或提交 PR 后自动编译并上传 jar 构建产物；推送 `v*` 标签（如 `v1.0`）时会自动创建 GitHub Release，正文包含该提交的 commit 信息与自动生成的变更日志。
+> 🚀 仓库已配置 **GitHub Actions 自动构建**：推送代码或提交 PR 后自动编译，构建产物（jar）会作为 Artifact 上传到对应的 Actions 运行中，可在页面直接下载。Release 采用**手动发布**。
+
+### 发布新版本
+
+GitHub Actions 仅负责构建，Release 需手动发布：
+
+1. 推送代码或提交 PR，GitHub Actions 自动构建，构建产物（`SuTeleport-1.0.jar`）可在对应运行的 **Artifacts** 中下载。
+2. 打开仓库 **Releases** 页面 → **Draft a new release**。
+3. 填写版本标签（如 `v1.0`）、标题与说明，将 jar 文件拖入附件区。
+4. 点击 **Publish release** 完成发布。
 
 ## 安装
 
